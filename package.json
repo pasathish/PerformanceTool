@@ -1,0 +1,31 @@
+{
+  "name": "performancetool",
+  "version": "1.0.0",
+  "description": "performance report of an employee",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel --presets es2015 -d lib/ server"
+  },
+  "author": "Sathishkumar P",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "express-fileupload": "^1.1.4",
+    "express-session": "^1.16.1",
+    "mysql": "^2.16.0",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "rimraf": "^2.6.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\"\""
+  }
+}

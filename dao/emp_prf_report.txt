@@ -1,0 +1,10 @@
+CREATE TABLE `emp_perf_report` (
+  `emp_id` varchar(255) NOT NULL,
+  `criteria_id` int(11) NOT NULL,
+  `report_date` date NOT NULL,
+  `rate` decimal(10,1) DEFAULT '0',
+  `criteria_discription` varchar(255) DEFAULT NULL,
+  `created_user` varchar(255) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  PRIMARY KEY (`emp_id`,`criteria_id`,`report_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci

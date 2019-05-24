@@ -1,0 +1,207 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.active{
+  color: blue !important
+}
+
+.optionClass{
+  width:100%;
+  overflow:hidden;
+  overflow-x:scroll
+}
+
+.body{
+  background:rgb(221, 216, 216);
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+.criteria-add-button{
+  position:fixed;
+  right:5%;
+  bottom:5%;
+  z-index: 3;
+  background: blue !important;
+}
+
+.criteria_detail{
+  margin: auto;
+}
+
+.suggession:hover{
+  background: rgb(236, 236, 236);
+ 
+}
+
+.suggession{
+  cursor:pointer;
+  padding:5px;
+  background: white;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+
+.criteria-box
+{   
+  
+  border-radius: 4px;
+  margin-top: 10px;
+  padding-top: 0px;
+  height: auto;
+  width: auto;
+  margin-right: 4px;
+  margin-left: 4px;
+    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(250, 248, 248, 0.226) inset;
+       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(252, 248, 248, 0.1) inset;
+            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(252, 249, 249, 0.1) inset;
+}
+
+.setting-criteria-box {
+  border-radius: 2px;
+  margin-top: 0px;
+  padding-top: 0px;
+  margin-top: 1px;
+  height: auto;
+  width: auto;
+  background: white;
+  margin-right: 4px;
+  margin-left: 4px;
+  box-shadow: 0 0px 1px rgba(12, 0, 0, 10), 0 0 40px rgba(252, 249, 249, 0.1) inset;
+}
+.mdl-list__item-primary-content{
+  width:50%;
+}
+
+.rating_description {
+  overflow: auto;
+  text-overflow: ellipsis;
+  height: 100%;
+}
+
+.mdl-layout__content{
+  overflow: auto;
+  background:rgb(245, 242, 242);
+}
+
+.datetextField {
+  width: 200px,
+}
+
+.rating5 {
+  background: green !important;
+}
+
+.rating4 {
+  background: rgb(72, 241, 6) !important;
+}
+
+.rating3 {
+  background: yellow !important;
+}
+
+.rating2 {
+  background: rgb(253, 115, 2) !important;
+}
+
+.rating1 {
+  background: rgb(243, 42, 6) !important;
+}
+
+.rating0{
+  background: rgb(97, 1, 1) !important;
+}
+
+.display-none{
+  display:none;
+}
+/*Scroll bar*/
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  cursor: pointer;
+  background: #555; 
+}
+
+.mdl-data-table{
+  max-width: 100%;
+  margin: auto;
+  white-space: normal;
+}
+
+.userLogin{
+  position: relative;
+  margin:auto;
+  width: auto;
+  margin-top: 6%;
+  text-align: center;
+}
+
+.mdl-list__item-primary-content :hover .criteriaIcon {
+  visibility:visible;
+}
+.mdl-list__item-primary-content .criteriaIcon {
+  visibility:hidden;
+}
+.mdl-list__item-text-body {
+  max-height:40px;
+  text-overflow: ellipsis;
+  overflow: auto
+}
+
+.info-icon{
+  color:gray;
+}
+.info-icon:hover{
+  color:rgb(88, 87, 87);
+}
+
+.mdl-tooltip{
+  width:auto !important;
+}
