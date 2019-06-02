@@ -49,8 +49,8 @@ class CriteriaService{
         return element;
     }
 
-    insert(res,objList,delobj){
-        dao.delete(delobj).then(()=>{
+    insert(res,objList,delobj,projectId){
+        dao.delete(delobj,projectId).then(()=>{
         dao.insert(res,objList)
     })
     }

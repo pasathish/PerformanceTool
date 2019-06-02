@@ -11,7 +11,7 @@ class CriteriaSettingController{
     router(){
         this.app.post("/insertSettingCriteria",function(req,res){
             console.log("insertSettingCriteria",req.body['updatedRecordKey'],req.body['updatedRecord'])
-            service.insert(res,JSON.parse(req.body['updatedRecord']),JSON.parse(req.body['updatedRecordKey']));
+            service.insert(res,JSON.parse(req.body['updatedRecord']),JSON.parse(req.body['updatedRecordKey']),JSON.parse(req.body['projectId']));
         })
 
         this.app.post("/getSettingCriterias",function(req,res){

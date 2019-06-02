@@ -33,7 +33,7 @@ class SettingServiceController{
         })
 
         this.app.post("/getTeamMember",function(req,res){
-            service.getTeamMember(/*req.session["userempId"]*/"122",res);
+            service.getTeamMember(req.session["user"],res);
         })
 
         this.app.post("/getProjectMember",function(req,res){

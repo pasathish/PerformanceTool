@@ -26,13 +26,15 @@ export default class PerformanceReportComponent extends Component{
             heading:[],
             criteriaId:[],
             fromDate:this.year+"-"+this.month+"-"+this.date,
-            toDate: this.year+"-"+this.month+"-"+this.date
+            toDate: this.year+"-"+this.month+"-"+this.date,
+            defaultName:""
         }
         this.toDaysDate=this.state.fromDate;
+        this.empId="";
         this.getData(this.state.fromDate,this.state.toDate);
         this.options=[];
         this.getTeamMembers();
-        this.empId="";
+        this.dialogReference=React.createRef();
     }
 
     handleCloseDialog=()=>{
@@ -118,7 +120,13 @@ export default class PerformanceReportComponent extends Component{
             rowValues[id]=elementList[index++].innerText;
             })
             console.log(rowValues);
+            this.setState({defaultName:rowValues.emp_name+" "+rowValues.emp_id});
+            this.setState({open:true});
+            this.dialogReference.current.getCriteriaList(rowValues.date,rowValues.emp_id);
+            this.dialogReference.current.updateData(rowValues.emp_id,rowValues.date);
         }
+
+
     }
 
     formTable=()=>{
@@ -171,8 +179,8 @@ export default class PerformanceReportComponent extends Component{
         {this.formTable()}</div>
         <Dialog open={this.state.open} style={{"width":"90%","margin":"auto","overflow":"auto","height":"90%",top:"0px"}} onCancel={this.handleCloseDialog}>
         {/* <DialogTitle primary>Report Summary</DialogTitle> */}
-        <DialogContent >
-        <PerformanceRatingComponent criteriaListHeight="400px" disableInput={true} id="test"></PerformanceRatingComponent>
+        <DialogContent style={{textAlign:"left"}}>
+        <PerformanceRatingComponent ref={this.dialogReference} defaultName={this.state.defaultName} criteriaListHeight="400px" disableInput={true} id="test"></PerformanceRatingComponent>
         </DialogContent>
         <DialogActions style={{position:"fixed",bottom:"5%",right:"5%"}}>
             <Button type='button' colored ripple raised onClick={this.handleCloseDialog}>Close</Button>

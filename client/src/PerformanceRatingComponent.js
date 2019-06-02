@@ -1,12 +1,12 @@
 
 import React, {Component} from 'react'
 import 'date-fns';
-import {Textfield,Badge,ListItem,ListItemContent,ListItemAction,Slider,Button } from 'react-mdl'
+import {Textfield,Badge,ListItem,ListItemContent,ListItemAction,Slider,Button,Dialog,DialogContent,DialogActions,FABButton,Icon } from 'react-mdl'
 import ReactAutoCompleteComponent from './ReactAutoCompleteComponent'
 
 
 export default class PerformanceRatingComponent extends Component{
-  constructor(){
+  constructor(props){
     super()
     this.dateObject=new Date();
     this.date=(this.dateObject.getDate()).toString()
@@ -20,10 +20,7 @@ export default class PerformanceRatingComponent extends Component{
       mode:0,
       criteriaList:[],
       hideSlider:false,
-    //  criteriaList:[{criteria_name:"gxghxcxcxcghcxhggc",criteria_description:"Bryan Cranston played the role of Walter in Breaking Bad. He is also known for playing Hal in Malcom in the Middle.Bryan Cranston played the role of Walter in Breaking Bad. He is also known for playing Hal in Malcom in the Middle.Bryan Cranston played the role of Walter in Breaking Bad. He is also known for playing Hal in Malcom in the Middle.",rate:0.0},
-    //  {criteria_name:"gxghxcxcxcghcxhggc",criteria_description:"Bryan Cranston played the role of Walter in Breaking Bad. He is also known for playing Hal in Malcom in the Middle.Bryan Cranston played the role of Walter in Breaking Bad. He is also known for playing Hal in Malcom in the Middle.Bryan Cranston played the role of Walter in Breaking Bad. He is also known for playing Hal in Malcom in the Middle.",rate:0.0},
-    //  {criteria_name:"gxghxcxcxcghcxhggc",criteria_description:"Bryan Cranston played the role of Walter in Breaking Bad. He is also known for playing Hal in Malcom in the Middle.Bryan Cranston played the role of Walter in Breaking Bad. He is also known for playing Hal in Malcom in the Middle.Bryan Cranston played the role of Walter in Breaking Bad. He is also known for playing Hal in Malcom in the Middle.",rate:0.0},
-    //  {criteria_name:"gxghxcxcxcghcxhggc",criteria_description:"Bryan Cranston played the role of Walter in Breaking Bad. He is also known for playing Hal in Malcom in the Middle.Bryan Cranston played the role of Walter in Breaking Bad. He is also known for playing Hal in Malcom in the Middle.Bryan Cranston played the role of Walter in Breaking Bad. He is also known for playing Hal in Malcom in the Middle.",rate:0.0}]
+      open:false
      }
     this.toDaysDate=this.state.selectedDate;
     this.getTeamMembers();
@@ -64,6 +61,10 @@ export default class PerformanceRatingComponent extends Component{
         this.setState({emp_id:empId});
         this.getCriteriaList(this.state.selectedDate,empId);
       }
+
+    updateData=(empId,date) => {
+      this.setState({emp_id:empId,selectedDate:date});
+    }      
 
       options = [
         { value: '', label: 'Chocolate' },
@@ -131,6 +132,11 @@ export default class PerformanceRatingComponent extends Component{
         let {criteriaList}=this.state;
         let finalResult=[]
         let finalKeys=[]
+        if(this.state.emp_id===""||this.state.emp_id===undefined){
+          this.setState({open:true});
+          return;
+        }
+
         criteriaList.forEach((value)=>{
           let row=[];
           let rowKey=[];
@@ -166,6 +172,9 @@ export default class PerformanceRatingComponent extends Component{
         this.componentDidMount();
       }
 
+      handleCloseDialog=()=>{
+        this.setState({open:false})
+      }
       updateOptions=(results)=>{
         results.forEach((row)=>{
             this.options.push({value:row.empId,label:row.empName})
@@ -215,7 +224,7 @@ export default class PerformanceRatingComponent extends Component{
         const criteriaListHeight=this.props.criteriaListHeight?this.props.criteriaListHeight:"500px"
         return (<div style={{"width":"1080px" ,"margin":"auto","paddingTop":"20px"}}>
         <div>
-           <ReactAutoCompleteComponent marginRight="20px" width="200px" id="001" onChange={this.updateEmployee} data={this.options} disabled={this.props.disableInput} label="Employee Name"></ReactAutoCompleteComponent>
+           <ReactAutoCompleteComponent marginRight="20px" width="200px" defaultValue={this.props.defaultName} id="001" onChange={this.updateEmployee} data={this.options} disabled={this.props.disableInput} label="Employee Name"></ReactAutoCompleteComponent>
               Average Rating : {this.getAverage()}
            <div style={{"float":"right","paddingTop":"10px"}}>
            <Button type='button' colored ripple  onClick={this.saveChanges} className={this.state.mode?"":"display-none"}><i class="material-icons" primary>save</i>Save</Button>
@@ -242,6 +251,19 @@ export default class PerformanceRatingComponent extends Component{
            <div style={{height:criteriaListHeight,overflow:"auto",background:"white"}}>
            {this.formCriteria()};
            </div>
+           <Dialog open={this.state.open} onCancel={this.handleCloseDialog}>
+
+        <DialogActions style={{}}>
+
+
+            <FABButton mini colored ripple raised style={{height:"20px",width:"20px",minWidth:"20px"}} onClick={this.handleCloseDialog}>
+    <Icon name="close" />
+    
+</FABButton>
+Please Select the Employee.
+          </DialogActions>
+
+        </Dialog>
            </div>
         );
       }

@@ -13,8 +13,8 @@ import Login from './LoginComponent';
 export default class Home extends Component{
  constructor(props){
      super(props);
-     this.state={title:"Login",LoggedIn:true};
-     //this.checkLoginStatus();
+     this.state={title:"Login",LoggedIn:false};
+     this.checkLoginStatus();
  }
 
 checkLoginStatus=()=>{

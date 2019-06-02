@@ -1,4 +1,5 @@
 const dao=require('../dao/emp_prf_report_dao');
+const teamMemberdao=require('../dao/add_team_member_dao');
 const criteria_setting_service=require('../service/criteria_setting_service');
 const settingService=new criteria_setting_service();
 class CriteriaService{
@@ -43,14 +44,28 @@ class CriteriaService{
                 }
             })
             let headerList=Array.from(criteriaMap.keys());
-            let headerIdList=["emp_id","date"]
+            let headerIdList=["emp_id","emp_name","date"];
+            let empIdList=new Set();
             dao.getRecord(fromDate,toDate,empId).then((results)=>{//2019-05-10
                 let reportMap= new Map();
+                console.log(results);
+                results.forEach(row=>{
+                    empIdList.add(row.emp_id);
+                });
+                teamMemberdao.getMemberName(Array.from(empIdList)).then((empNameList)=>{
+                    console.log(empNameList);
+                let empNameMap=new Map();
+                empNameList.forEach((row)=>{
+                    empNameMap.set(row.empId,row.empName);
+                })
                 results.forEach(row=>{
                     let criteriaId=criteriaMap.get(row.criteria_id);
-                    if(!headerIdList.includes(criteriaId))
+                    if(!headerIdList.includes(criteriaId)&&criteriaId !== undefined)
                     headerIdList.push(criteriaId);
-                    if(reportMap.has(row.emp_id+row.report_date)){
+                    if(criteriaId === undefined){
+                        //Criteria deleted;
+                    }
+                    else if(reportMap.has(row.emp_id+row.report_date)){
                         console.log(row.emp_id+row.report_date,"=====>",reportMap.get(row.emp_id+row.report_date))
                         reportMap.get(row.emp_id+row.report_date)[criteriaId]=row.rate;
                     }else{
@@ -58,16 +73,23 @@ class CriteriaService{
                         newObject[criteriaId]=row.rate;
                         newObject["emp_id"]=row.emp_id;
                         newObject["date"]=row.report_date;
+                        newObject["emp_name"]=empNameMap.get(row.emp_id);
                         reportMap.set(row.emp_id+row.report_date,newObject);
+
                         }
                 })
-            let record=Array.from(reportMap.values());
-            console.log(headerList)
-            console.log(record)
-            if(headerIdList.length==2)
-            headerIdList=[];
-            res.send({"header":headerIdList,"data":record})
-            })       
+                    let record=Array.from(reportMap.values());
+                    console.log(headerList)
+                    console.log(record)
+                    if(headerIdList.length==2)
+                    headerIdList=[];
+                    if(record.length==0)
+                    headerIdList=[];
+                    res.send({"header":headerIdList,"data":record})
+                }).catch((error)=>{
+                    console.log(error)
+                })    
+        })
          })
     }
 

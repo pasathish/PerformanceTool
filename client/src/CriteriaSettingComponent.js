@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import ReactAutoCompleteComponent from './ReactAutoCompleteComponent'
-import {Button,Tooltip,Icon,Slider,Badge,Switch} from 'react-mdl'
+import {Button,Tooltip,Icon,Slider,Badge,Switch,Dialog,DialogActions,FABButton} from 'react-mdl'
 
 
 export default class CriteriaSettingComponent extends Component{
@@ -22,24 +22,37 @@ export default class CriteriaSettingComponent extends Component{
             // {min_rate:0,max_rate:5,criteria_enable:0,criteria_name:"Criteria1 kdgbwru hiuriewur wiuerrguerh",criteria_description:"Bryan Cranston played the role of Walter in Breaking Bad. He is also known for playing Hal in Malcom in the Middle.Bryan Cranston played the role of Walter in Breaking Bad. He is also known for playing Hal in Malcom in the Middle.Bryan Cranston played the role of Walter in Breaking Bad. He is also known for playing Hal in Malcom in the Middle."}]
             criteriaList :[],
             backupCriteriaList:[],
-            projectId:""
+            projectId:"",
+            open:false,
+            refresh:false
           }
+          this.getProject();
         this.modifiedRows=new Set();
         this.getCriteriaList(this.state.projectId);
     }
-    options = [
-      { value: '123', label: 'Chocolate' },
-      { value: 'Strawberry', label: 'Strawberry' },
-      { value: 'Vanilla', label: 'Vanilla' },
-      { value: 'Chocolate', label: 'Chocolate' },
-      { value: 'Strawberry', label: 'Strawberry' },
-      { value: 'Vanilla', label: 'Vanilla' },
-      { value: 'Strawberry', label: 'Strawberry' },
-      { value: 'Vanilla', label: 'Vanilla' }
-    ];
+
+    options=[];
+
+    getProject(){
+      fetch("http://localhost:5000/getProjects",{
+          method:"post"
+          }).then(async (result)=>{
+              result=await result.json();
+              if(result){
+                  console.log(result)
+                  let projects=result;
+                  result.forEach((row)=>{
+                    this.options.push({value:row.project_id,label:row.project_name});
+                  })
+                  this.setState({"projects":projects});
+              }
+          })
+  }
+
     getCriteriaList=(projectId)=>{
       let formData= new FormData();
       formData.append("project_id",projectId);
+      this.setState({refresh:true})
       fetch("http://localhost:5000/getSettingCriterias",{
         method:"post",
         body:formData
@@ -47,9 +60,13 @@ export default class CriteriaSettingComponent extends Component{
             let result=await response.json()
             console.log(result)
             if(result){
-              this.setState({criteriaList:result,backupCriteriaList:JSON.stringify(result)})
+              this.setState({refresh:false,criteriaList:result,backupCriteriaList:JSON.stringify(result)});
             }
         });
+    }
+
+    handleCloseDialog=()=>{
+      this.setState({open:false})
     }
 
     updateProjectName=(value)=>{
@@ -61,6 +78,10 @@ export default class CriteriaSettingComponent extends Component{
       this.setState({mode:0})
       let formData= new FormData();
       let data=this.getInsertData();
+      if(this.state.projectId===""||this.state.projectId===undefined){
+        this.setState({open:true});
+        return;
+      }
       formData.append("updatedRecord",JSON.stringify(data["updatedRecord"]))
       formData.append("updatedRecordKey",JSON.stringify([data["updatedRecordKey"]]))
         fetch("http://localhost:5000/insertSettingCriteria",{
@@ -79,18 +100,18 @@ export default class CriteriaSettingComponent extends Component{
       let updatedRecord=[];
       let updatedRecordKey=[];
       let criteriaList = this.state.criteriaList
+      let project_id=this.state.projectId;
       this.modifiedRows.forEach((value)=>{
         let data=[]
         data.push(criteriaList[value]["criteria_id"]);
-        data.push("123");//criteriaList[value]["project_id"]);
+        data.push(project_id);//criteriaList[value]["project_id"]);
         data.push(criteriaList[value]["min_rate"]);
         data.push(criteriaList[value]["max_rate"]);
         data.push(criteriaList[value]["criteria_enable"]);
-
         updatedRecord.push(data);
         updatedRecordKey.push(data[0]);
       })
-      return {"updatedRecord":updatedRecord,"updatedRecordKey":updatedRecordKey}
+      return {"updatedRecord":updatedRecord,"updatedRecordKey":updatedRecordKey,"projectId":project_id}
     }
 
     undoChanges=()=>{
@@ -173,8 +194,21 @@ export default class CriteriaSettingComponent extends Component{
                             </div>
                         </div> 
                 <div style={{height:"440px",overflow:"auto",minWidth:"890px"}} key={this.state.mode}>
-                {this.criteriaBoxList()}
+                {this.state.refresh?<></>:this.criteriaBoxList()}
                 </div>
+                <Dialog open={this.state.open} onCancel={this.handleCloseDialog}>
+
+<DialogActions style={{}}>
+
+
+    <FABButton mini colored ripple raised style={{height:"20px",width:"20px",minWidth:"20px"}} onClick={this.handleCloseDialog}>
+<Icon name="close" />
+
+</FABButton>
+Please Select the Project.
+  </DialogActions>
+
+</Dialog>
         </div>
     }
 }

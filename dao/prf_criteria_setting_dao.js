@@ -34,10 +34,11 @@ class PrfCriteriaSettingDao{
         });
     }
 
-    async delete(obj){ 
+    async delete(obj,projectId){ 
         let sql = `delete from prf_criteria_setting
-        WHERE criteria_id in ? and project_id in ("123")`;
-        return await this.con.query(sql, [obj],  (error, results, fields) => {
+        WHERE criteria_id in (?) and project_id in (?)`;
+        console.log("obj",obj)
+        return await this.con.query(sql, [obj,projectId],  (error, results, fields) => {
             if (error) {
                  console.log(error.message);
             }

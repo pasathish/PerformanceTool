@@ -16,7 +16,7 @@ class PerformanceReportController{
 
         this.app.post("/getReport",function(req,res){
             console.log("***********************",req.body["date"])
-            service.getAll(req.body["empID"],req.body["date"],req.session["projectId"],res);
+            service.getAll(req.body["empID"],req.body["date"],req.session["projectId"],res,req.session['user']);
         })
 
         this.app.post("/getTeamReport",function(req,res){

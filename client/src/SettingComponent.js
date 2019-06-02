@@ -23,7 +23,7 @@ export default class Setting extends Component {
         this.empId="";
         this.projectName="";
         this.projectId="";
-        this.titleList=["Add members","Add projects","Add New members","Screen Setting"];
+        this.titleList=["Add members","Add projects","Add New members","Create User","Screen Setting"];
         this.getTeamMembers();
         this.getProject();
         this.getProjectMembers();
@@ -229,6 +229,10 @@ export default class Setting extends Component {
         }))
     }
 
+    newUser=()=>{
+        return(<div>Coming Soon</div>)
+    }
+
     getProjectPart=()=>{
         this.projectIdList=[];
         return( this.state.projects.map((tag,key)=>{
@@ -246,6 +250,7 @@ export default class Setting extends Component {
                     <Tab>Add members</Tab>
                     <Tab>Add projects</Tab>
                     <Tab>Add New members</Tab>
+                    <Tab>Create User</Tab>
                     <Tab>Screen setting</Tab>
             </Tabs>
             {this.state.activeTab==0?<section style={{}}>
@@ -295,8 +300,11 @@ export default class Setting extends Component {
                 {this.state.errorMessage!==""? <div className="errorMessage"style={{color:"red"}}>{this.state.errorMessage}</div>:<></>}
                 </div>
             </section>:<></>}
-            {this.state.activeTab==3?<section style={{}}>
+            {this.state.activeTab==4?<section style={{}}>
                 <div style={{display:"inline-block"}}> {this.screenTitle()}</div><div style={{paddingLeft:"200px",paddingTop:"8px"}}><Button primary="true" raised ripple onClick={()=>{}} >save</Button></div>
+            </section>:<></>}
+            {this.state.activeTab==3?<section style={{}}>
+                <div style={{display:"inline-block"}}> {this.newUser()}</div><div style={{paddingLeft:"200px",paddingTop:"8px"}}><Button primary="true" raised ripple onClick={()=>{}} >save</Button></div>
             </section>:<></>}
             </div>
         </div>)

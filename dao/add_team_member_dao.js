@@ -31,6 +31,16 @@ class MemberSettingDao{
     });
    }
 
+   getMemberName(empIdList){
+       console.log("empIdList",empIdList)
+    let query =`select empId, empName from team_member where empId in (?)`;
+    return new Promise((resolve,reject)=>this.con.query(query, [empIdList],  (error, results, fields) => {
+        if(error)
+        resolve([]);
+        resolve(results);
+    }));
+   }
+
    insertProject(obj,res){
        console.log(obj)
     let query =`insert into project_list set ?`;
@@ -95,7 +105,7 @@ class MemberSettingDao{
 
    getTeamMember(obj,res){
        console.log(obj)
-        let query =`select * from team_member where supervisorId=?`;
+        let query =`select * from team_member where supervisorId in (?)`;
         this.con.query(query, [obj],  (error, results, fields) => {
             if (error) {
                 return console.error(error.message);

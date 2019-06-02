@@ -27,7 +27,7 @@ class PrfCriteriaDao{
    getRecord(fromDate,toDate,empId){
         let filter=[toDate,fromDate]
         let sql;
-        if(empId===""){
+        if(empId===""||empId===undefined){
             sql= `select criteria_id,emp_id,report_date,  rate from 
             emp_perf_report where report_date<=? and report_date>=? ;`;
         }else{
@@ -35,6 +35,8 @@ class PrfCriteriaDao{
             sql= `select criteria_id,emp_id,report_date,  rate from 
             emp_perf_report where report_date<=? and report_date>=? and emp_id=?;`;
         }
+        console.log(sql)
+        console.log("empId",empId,filter)
     return new Promise((resolve, reject)=>{
         this.con.query(sql,filter, (error, results) => {
             if (error) {

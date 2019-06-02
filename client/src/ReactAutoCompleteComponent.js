@@ -9,7 +9,7 @@ export default class ReactAutoCompleteComponent extends Component {
         this.state = {
             open: false,
             value:"" ,
-            selectedLabel:"",
+            selectedLabel:props.defaultValue?props.defaultValue:"",
             totalSuggestions:props.data,
             filterSuggestion:props.data
         }
@@ -61,7 +61,8 @@ export default class ReactAutoCompleteComponent extends Component {
     }
 
     render(){
-        const {open,selectedLabel}=this.state;
+        let {open,selectedLabel}=this.state;
+        selectedLabel=selectedLabel===""&&this.props.defaultValue?this.props.defaultValue:selectedLabel;
         return (
             <React.Fragment>
             <Textfield
@@ -69,6 +70,7 @@ export default class ReactAutoCompleteComponent extends Component {
               disabled={this.props.disabled}
               onClick={this.openPopper}
               onFocus={this.openPopper}
+              autoComplete="off"
               onBlur={()=>{this.closePopper();}} 
               onChange={(event)=>{this.filterSugestion(event.currentTarget.value);this.props.onChange(undefined,undefined)}}
               value={selectedLabel}
@@ -77,7 +79,7 @@ export default class ReactAutoCompleteComponent extends Component {
               style={{width:this.props.width,marginRight:this.props.marginRight}}
               />
               {open?<div className="suggestion-box" onFocus={this.openPopper}
-              onBlur={this.closePopper} style={{"width":this.props.width }}>
+              onBlur={this.closePopper} style={{"width":this.props.width,zIndex:"1900" }}>
                 {this.formSuggestionList(this.state.filterSuggestion)}
               </div>:<></>}
               </React.Fragment>
