@@ -1,2 +1,2 @@
 # PerformanceTool
-Tool to update performance of an employee in a company
+Web application to update performance of an employee in a company
