@@ -1,8 +1,0 @@
-create table userDB(
-first_name varchar(255) not null,
-last_name varchar(255) not null,
-email_id varchar(255) not null,
-emp_id varchar(255) not null,
-password varchar(255) not null,
-primary key(`email_id`)
-);

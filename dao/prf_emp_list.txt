@@ -1,8 +1,0 @@
-create table prf_criteria_emp_list(
-emp_id varchar(255) not null,
-emp_position int not null default 0,
-emp_superior_id varckar(255) not null,
-created_user varchar(255),
-created_date date,
-primary key (emp_id)
-);

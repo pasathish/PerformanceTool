@@ -22,7 +22,6 @@ checkLoginStatus=()=>{
         method:"post"
         }).then(async (response)=>{
             let result=await response.json()
-        console.log(result)
         this.updateLoginStatus(result['login'])
         });
 }

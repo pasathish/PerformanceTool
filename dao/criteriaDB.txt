@@ -1,8 +1,0 @@
-create table emp_perf_criteria(
-criteria_id int not null auto_increment,
-criteria_name varchar(250) not null,
-criteria_description varchar(400) default "",
-criteria_enable bool default TRUE,
-user_name varchar(250),
-created_date date,
-primary key(criteria_id) );

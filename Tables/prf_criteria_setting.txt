@@ -1,0 +1,8 @@
+CREATE TABLE `prf_criteria_setting` (
+  `project_id` varchar(255) NOT NULL,
+  `criteria_id` int(11) NOT NULL,
+  `min_rate` decimal(10,1) DEFAULT '0',
+  `max_rate` decimal(10,1) DEFAULT '5',
+  `criteria_enable` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`project_id`,`criteria_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
